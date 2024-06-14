@@ -62,12 +62,14 @@ pygame.display.set_caption("Circunferência com Bola")
 font = pygame.font.Font(None, 36)
 
 # Inicialização da música
-pygame.mixer.music.load("megalovania.mp3")  # Substitua "exemplo_musica.mp3" pelo caminho do seu arquivo de música
+# pygame.mixer.music.load("megalovania.mp3")  # Substitua "exemplo_musica.mp3" pelo caminho do seu arquivo de música
+pygame.mixer.music.load("tokyo_drift.mp3")  # Substitua "exemplo_musica.mp3" pelo caminho do seu arquivo de música
 
 music_playing = False
 collision_timer = 0
-collision_duration = 250  # Duração da reprodução da música em milissegundos
+collision_duration = 200  # Duração da reprodução da música em milissegundos
 pause_time = 0
+fadeout_duration = 100
 
 
 # Função para verificar colisão da bola com a circunferência
@@ -112,8 +114,11 @@ while running:
     pygame.draw.circle(screen, WHITE, [int(pos) for pos in ball_pos], 10)
 
     # Atualizar posição da bola
-    ball_pos[0] += ball_speed[0] * pygame.time.get_ticks() / 1000  # Aumentando a velocidade
-    ball_pos[1] += ball_speed[1] * pygame.time.get_ticks() / 1000
+    ball_pos[0] += ball_speed[0] * pygame.time.get_ticks() / 5000  # Aumentando a velocidade
+    ball_pos[1] += ball_speed[1] * pygame.time.get_ticks() / 5000
+
+    # ball_pos[0] += ball_speed[0] * 3  # Aumentando a velocidade
+    # ball_pos[1] += ball_speed[1] * 3
 
 
     # Verificar colisão com a circunferência
@@ -136,6 +141,7 @@ while running:
 
     # Verificar se o tempo de colisão decorreu
     if music_playing and pygame.time.get_ticks() - collision_timer >= collision_duration:
+        # pygame.mixer.music.fadeout(fadeout_duration)
         pygame.mixer.music.pause()
         pause_time = pygame.mixer.music.get_pos()
         # music_playing = True
